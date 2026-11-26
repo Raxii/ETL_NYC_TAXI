@@ -1,0 +1,44 @@
+INSTRUCCIONES PARA SUBIR ESTE PROYECTO A GITHUB
+
+1. Descarga y descomprime ETL_NYC_TAXI_GITHUB.zip.
+2. En GitHub crea un repositorio PRIVADO llamado ETL_NYC_TAXI.
+3. No marques la opción de crear README, .gitignore ni licencia: ya vienen incluidos.
+4. Copia el contenido de esta carpeta a tu carpeta local ETL_NYC_TAXI.
+5. Abre una terminal en esa carpeta y ejecuta:
+
+   git init
+   git branch -M main
+   git add .
+   git commit -m "chore: crea estructura inicial del proyecto ETL"
+   git remote add origin URL_DEL_REPOSITORIO
+   git push -u origin main
+
+6. En GitHub, entra a Settings > Collaborators y agrega las cuentas de Santi, Byron y Matius.
+7. Cada integrante clona el mismo repositorio:
+
+   git clone URL_DEL_REPOSITORIO
+
+8. Cada integrante crea su rama:
+
+   Santi:
+   git checkout -b feature/santi-extraccion
+
+   Byron:
+   git checkout -b feature/byron-esquemas
+
+   Matius:
+   git checkout -b feature/matius-calidad
+
+9. Crear el archivo local .env copiando .env.example. NO subir .env.
+10. Ejecutar Docker:
+
+    docker compose up --build -d
+
+11. Abrir http://localhost:8888 y entrar con el token definido en .env.
+
+IMPORTANTE:
+- No subir archivos Parquet ni resultados de ejecución.
+- No subir contraseñas, tokens ni archivos .env.
+- No trabajar directamente sobre main.
+- Cada cambio se sube en la rama propia y se integra mediante Pull Request.
+- Los tres deben usar la misma selección de archivos y la misma configuración acordada.

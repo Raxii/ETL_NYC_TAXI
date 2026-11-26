@@ -1,0 +1,177 @@
+{
+  "schema_name": "canonical_schema_trips",
+  "status": "ESQUEMA_LOGICO_INICIAL; TIPOS_PENDIENTES_DE_VALIDACION_CON_DATOS_REALES",
+  "fields": [
+    {
+      "name": "trip_id",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "service_type",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "vendor_id",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "pickup_datetime",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "dropoff_datetime",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "passenger_count",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "trip_distance",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "pickup_location_id",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "dropoff_location_id",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "payment_type",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "fare_amount",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "extra_amount",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "mta_tax",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "tip_amount",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "tolls_amount",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "total_amount",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "congestion_surcharge",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "airport_fee",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "year",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "month",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "source_file",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "ingestion_timestamp",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "quality_status",
+      "type": null,
+      "nullable": null
+    }
+  ],
+  "derived_fields": [
+    {
+      "name": "trip_duration_minutes",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "average_speed_mph",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "fare_per_mile",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "tip_percentage",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "is_airport_trip",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "is_suspicious_trip",
+      "type": null,
+      "nullable": null
+    },
+    {
+      "name": "processing_date",
+      "type": null,
+      "nullable": null
+    }
+  ],
+  "mapping_examples_from_case": {
+    "pickup_datetime": {
+      "yellow": "tpep_pickup_datetime",
+      "green": "lpep_pickup_datetime",
+      "fhvhv": "pickup_datetime"
+    },
+    "dropoff_datetime": {
+      "yellow": "tpep_dropoff_datetime",
+      "green": "lpep_dropoff_datetime",
+      "fhvhv": "dropoff_datetime"
+    },
+    "pickup_location_id": "PULocationID",
+    "dropoff_location_id": "DOLocationID"
+  },
+  "notes": [
+    "El documento no define los tipos SQL/Spark de todos los campos; determinarlos inspeccionando los archivos.",
+    "El documento sugiere para FHVHV un cálculo de total_amount con base_passenger_fare, tolls y sales_tax; validar componentes disponibles antes de implementarlo.",
+    "No asumir que todos los campos aplican a los tres servicios."
+  ]
+}

@@ -1,0 +1,91 @@
+LEEME — RESPONSABILIDADES DE MATIUS
+Proyecto: ETL_NYC_TAXI
+
+ROL PRINCIPAL
+Transformaciones, métricas derivadas, reglas de calidad, separación de registros válidos/rechazados, métricas de calidad y gold_trips_clean.
+
+RAMA DE GITHUB
+feature/matius-calidad
+
+ARCHIVOS BAJO TU RESPONSABILIDAD
+- notebooks/03_transformacion_validacion.ipynb
+- src/transformations.py
+- src/quality_rules.py
+- metadata/business_rules.json (coordinar criterios con el equipo y el docente).
+- quality_rejected_records.
+- quality_metrics_summary.
+- gold_trips_clean.
+
+TAREAS PASO A PASO
+1. Recibir de Byron los datos reconstruidos de BRONZE y el esquema canónico.
+2. Normalizar nombres y tipos conforme al contrato acordado.
+3. Convertir fechas a timestamp.
+4. Calcular duración del viaje en minutos.
+5. Calcular velocidad promedio estimada.
+6. Calcular tarifa por milla.
+7. Calcular porcentaje de propina.
+8. Crear is_airport_trip solo cuando se disponga de una regla/tabla de zonas aeroportuarias confiable.
+9. Crear is_suspicious_trip según las condiciones del caso.
+10. Generar trip_id determinístico y documentar la estrategia.
+11. Detectar duplicados técnicos y conservar evidencia.
+12. Validar nulos críticos, fechas, montos, distancias, duración y particiones.
+13. Separar registros válidos, rechazados y sospechosos.
+14. Construir quality_rejected_records con etapa, regla, columna, valor original y razones.
+15. Construir quality_metrics_summary por servicio, año y mes.
+16. Construir gold_trips_clean con las columnas exigidas.
+
+REGLAS DEL CASO A CONSIDERAR
+- Distancia <= 0.
+- Total_amount <= 0.
+- Fare_amount < 0.
+- Duración <= 0.
+- Duración > 480 minutos.
+- Velocidad promedio > 100 mph.
+- Tip_percentage > 100.
+- Pickup posterior a dropoff.
+- Pickup en el futuro.
+- Campos críticos nulos.
+- Duplicados técnicos.
+
+PUNTO QUE DEBES ACLARAR
+El documento mezcla condiciones de rechazo con condiciones para marcar un viaje sospechoso. No rechaces automáticamente todo lo sospechoso sin confirmar el criterio con el ingeniero. Mantén separadas las categorías y documenta la decisión.
+
+CRITERIOS PARA DAR TU PARTE POR TERMINADA
+- Transformaciones reproducibles con Spark.
+- trip_id estable entre ejecuciones para el mismo viaje.
+- Duplicados detectados y trazables.
+- Registros válidos y rechazados separados.
+- Sospechosos identificados sin confundirlos automáticamente con rechazados.
+- quality_rejected_records contiene las columnas solicitadas.
+- quality_metrics_summary contiene las métricas solicitadas.
+- gold_trips_clean contiene las columnas del enunciado.
+- Pruebas de reglas y notebook con resultados verificables.
+
+OPTIMIZACIONES SPARK A DOCUMENTAR
+Trabajar al menos en:
+- Partition pruning.
+- Uso de explain() para analizar el plan físico.
+Coordinar con Santi y Byron para que el equipo justifique cinco técnicas como mínimo.
+
+QUÉ DEBES SUBIR A GITHUB
+Código, notebooks sin salidas pesadas, reglas JSON, pruebas y documentación.
+NO subir Parquet, datos procesados, contraseñas ni .env.
+
+FLUJO GIT
+1. git checkout main
+2. git pull origin main
+3. git checkout feature/matius-calidad
+4. Desarrollar y probar.
+5. git add <archivos>
+6. git commit -m "feat: descripcion"
+7. git push origin feature/matius-calidad
+8. Abrir Pull Request hacia main.
+9. Solicitar revisión de Santi o Byron.
+
+DEPENDENCIAS
+- Necesitas el esquema canónico y BRONZE de Byron.
+- Necesitas las rutas y metadatos de Santi.
+- Santi necesita tus salidas para la carga a PostgreSQL.
+- Byron necesita gold_trips_clean o SILVER para gold_location_performance.
+
+NO CAMBIES POR TU CUENTA LOS CONTRATOS DE DATOS NI LOS NOMBRES DE TABLAS.

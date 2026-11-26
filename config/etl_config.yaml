@@ -1,0 +1,75 @@
+project:
+  name: ETL_NYC_TAXI
+  timezone: America/Guayaquil
+
+execution:
+  # Generar un UUID nuevo en cada ejecución del pipeline.
+  process_id_strategy: uuid
+  # Definir y documentar la estrategia de idempotencia antes de cargar datos.
+  idempotency_strategy: PENDIENTE_DE_IMPLEMENTAR_Y_PROBAR
+
+paths:
+  raw: data/raw
+  bronze: data/bronze
+  silver: data/silver
+  gold: data/gold
+  quarantine: data/quarantine
+  audit: data/audit
+
+spark:
+  app_name: ETL_NYC_TAXI
+  master: local[*]
+  shuffle_partitions: 8
+  adaptive_enabled: true
+  session_timezone: UTC
+  postgres_jdbc_package: org.postgresql:postgresql:42.7.4
+
+postgres:
+  host: postgres
+  port: 5432
+  database_env: POSTGRES_DB
+  username_env: POSTGRES_USER
+  password_env: POSTGRES_PASSWORD
+  jdbc_driver: org.postgresql.Driver
+
+datasets:
+  # Selección propuesta por el equipo; conservar la aprobación del docente
+  # porque el PDF escrito enumera 11 archivos mínimos.
+  - service_type: yellow
+    year: 2023
+    month: 1
+    file_name: yellow_tripdata_2023-01.parquet
+    enabled: true
+  - service_type: yellow
+    year: 2023
+    month: 2
+    file_name: yellow_tripdata_2023-02.parquet
+    enabled: true
+  - service_type: green
+    year: 2023
+    month: 1
+    file_name: green_tripdata_2023-01.parquet
+    enabled: true
+  - service_type: green
+    year: 2023
+    month: 2
+    file_name: green_tripdata_2023-02.parquet
+    enabled: true
+  - service_type: fhvhv
+    year: 2023
+    month: 1
+    file_name: fhvhv_tripdata_2023-01.parquet
+    enabled: true
+
+quality:
+  # Los umbrales proceden del caso. Confirmar con el docente cuáles se rechazan
+  # y cuáles solamente se marcan como sospechosos.
+  max_trip_duration_minutes: 480
+  max_average_speed_mph: 100
+  max_tip_percentage: 100
+  reject_negative_amounts: true
+  reject_nonpositive_distance: true
+  reject_nonpositive_duration: true
+  reject_technical_duplicates: true
+  reject_null_critical_fields: true
+  suspicious_policy_confirmation: PENDIENTE_CON_INGENIERO

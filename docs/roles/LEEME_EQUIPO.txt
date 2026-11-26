@@ -1,0 +1,27 @@
+LEEME — ACUERDOS PARA LOS TRES INTEGRANTES
+
+1. Trabajamos sobre un único repositorio privado.
+2. Cada uno trabaja en su rama y abre Pull Request.
+3. Nadie sube directamente a main.
+4. Todos usan los mismos cinco archivos mensuales seleccionados, si el docente confirma la selección.
+5. Los archivos Parquet no se suben a GitHub.
+6. Todos usan Docker Compose y la misma configuración de servicios.
+7. No guardar secretos en el repositorio.
+8. Los nombres de columnas, tipos y contratos se acuerdan antes de cambiar interfaces.
+9. Cada módulo debe tener pruebas.
+10. Todo cambio debe poder reproducirse desde el README.
+11. Se debe generar un process_id nuevo por ejecución.
+12. La carga debe ser idempotente.
+13. Se debe conservar evidencia de archivos y registros rechazados.
+14. Los tres deben conocer el pipeline completo para la exposición.
+15. Cada Pull Request debe ser revisado por otro integrante.
+
+REUNIÓN DE INTEGRACIÓN
+Antes de cada integración, revisar:
+- ¿Qué archivos cambió?
+- ¿Qué entrada necesita?
+- ¿Qué salida produce?
+- ¿Qué columnas usa y entrega?
+- ¿Qué prueba ejecutó?
+- ¿Qué decisión técnica está pendiente?
+- ¿Rompe el trabajo de otro integrante?

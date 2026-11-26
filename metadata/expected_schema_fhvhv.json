@@ -1,0 +1,9 @@
+{
+  "service_type": "fhvhv",
+  "status": "PENDIENTE_DE_INSPECCIONAR_ARCHIVOS_REALES",
+  "source_files": [
+    "fhvhv_tripdata_2023-01.parquet"
+  ],
+  "fields": [],
+  "instructions": "Completar con el esquema real leído por Spark. No asumir que la estructura coincide con Yellow o Green."
+}

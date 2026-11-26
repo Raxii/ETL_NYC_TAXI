@@ -1,0 +1,63 @@
+{
+  "status": "REGLAS_INICIALES_DEL_CASO; CONFIRMAR_CLASIFICACION_CON_INGENIERO",
+  "reject_or_validate": [
+    {
+      "rule": "critical_fields_not_null",
+      "description": "Campos críticos nulos",
+      "decision": "RECHAZO_SEGUN_CAMPO_CRITICO"
+    },
+    {
+      "rule": "invalid_dates",
+      "description": "Fechas inválidas o pickup_datetime posterior a dropoff_datetime",
+      "decision": "RECHAZO"
+    },
+    {
+      "rule": "negative_amounts",
+      "description": "Importes negativos",
+      "decision": "RECHAZO"
+    },
+    {
+      "rule": "nonpositive_distance",
+      "description": "trip_distance <= 0",
+      "decision": "RECHAZO"
+    },
+    {
+      "rule": "invalid_duration",
+      "description": "Duración <= 0",
+      "decision": "RECHAZO"
+    },
+    {
+      "rule": "technical_duplicates",
+      "description": "Duplicados técnicos",
+      "decision": "RECHAZO_DE_DUPLICADO"
+    }
+  ],
+  "suspicious_conditions_from_case": [
+    {
+      "rule": "duration_over_480",
+      "condition": "trip_duration_minutes > 480"
+    },
+    {
+      "rule": "speed_over_100",
+      "condition": "average_speed_mph > 100"
+    },
+    {
+      "rule": "tip_percentage_over_100",
+      "condition": "tip_percentage > 100"
+    },
+    {
+      "rule": "pickup_in_future",
+      "condition": "pickup_datetime está en el futuro"
+    },
+    {
+      "rule": "nonpositive_total",
+      "condition": "total_amount <= 0"
+    }
+  ],
+  "important_conflict_to_resolve": "El caso menciona velocidad irreal entre los rechazos, pero también pide marcar viajes sospechosos. Confirmar con el ingeniero qué condiciones se rechazan y cuáles solo se marcan.",
+  "thresholds": {
+    "max_trip_duration_minutes": 480,
+    "max_average_speed_mph": 100,
+    "max_tip_percentage": 100
+  }
+}

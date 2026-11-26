@@ -1,0 +1,10 @@
+{
+  "service_type": "yellow",
+  "status": "PENDIENTE_DE_INSPECCIONAR_ARCHIVOS_REALES",
+  "source_files": [
+    "yellow_tripdata_2023-01.parquet",
+    "yellow_tripdata_2023-02.parquet"
+  ],
+  "fields": [],
+  "instructions": "Completar con el esquema real leído por Spark. No inventar tipos ni asumir que todos los meses tienen idéntico esquema."
+}

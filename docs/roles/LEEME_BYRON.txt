@@ -1,0 +1,83 @@
+LEEME — RESPONSABILIDADES DE BYRON
+Proyecto: ETL_NYC_TAXI
+
+ROL PRINCIPAL
+Diagnóstico de esquemas, homologación de Yellow/Green/FHVHV, esquema canónico, tratamiento de archivos problemáticos y cuarentena técnica de archivos.
+
+RAMA DE GITHUB
+feature/byron-esquemas
+
+ARCHIVOS BAJO TU RESPONSABILIDAD
+- notebooks/02_diagnostico_reconstruccion.ipynb
+- src/schema_recovery.py
+- metadata/expected_schema_yellow.json
+- metadata/expected_schema_green.json
+- metadata/expected_schema_fhvhv.json
+- metadata/canonical_schema_trips.json
+- Cuarentena de archivos en data/quarantine/.
+- gold_location_performance mediante src/gold_aggregations.py.
+
+TAREAS PASO A PASO
+1. Recibir los archivos RAW de la selección aprobada.
+2. Leer cada archivo con Spark y guardar su esquema real.
+3. Comparar archivos del mismo servicio y entre servicios.
+4. Identificar columnas faltantes, adicionales y tipos incompatibles.
+5. Crear una matriz de homologación para Yellow, Green y FHVHV.
+6. Construir el esquema canónico común con los campos mínimos del enunciado.
+7. Agregar columnas ausentes con nulos controlados cuando corresponda.
+8. Convertir tipos con manejo de errores; no descartar errores silenciosamente.
+9. Revisar el repositorio Apache Parquet Testing y elegir archivos problemáticos representativos.
+10. Probar lectura de esos archivos y capturar excepciones.
+11. Clasificar fallos con las categorías del enunciado:
+    - RECOVERABLE_SCHEMA_MISMATCH
+    - RECOVERABLE_MISSING_COLUMNS
+    - RECOVERABLE_TYPE_CASTING
+    - PARTIALLY_RECOVERABLE
+    - NOT_RECOVERABLE_CORRUPT_METADATA
+    - NOT_RECOVERABLE_EMPTY_FILE
+    - NOT_RECOVERABLE_UNSUPPORTED_FORMAT
+12. Guardar evidencia de cuarentena: archivo/referencia, motivo, excepción, fecha, etapa y acción recomendada.
+13. Producir datos reconstruidos en BRONZE para Matius.
+14. Implementar gold_location_performance a partir de los datos válidos acordados.
+
+CRITERIOS PARA DAR TU PARTE POR TERMINADA
+- Esquemas reales documentados por archivo/servicio.
+- Matriz de homologación justificada.
+- Esquema canónico con campos del enunciado.
+- Columnas faltantes y conversiones controladas.
+- Archivos problemáticos clasificados con evidencia.
+- Un archivo corrupto no detiene el procesamiento de los demás.
+- BRONZE tiene estructura estable para Matius.
+- gold_location_performance agrupa por servicio, origen y destino.
+- Notebook, código y pruebas reproducibles.
+
+OPTIMIZACIONES SPARK A DOCUMENTAR
+Trabajar al menos en:
+- Lectura selectiva de columnas.
+- Predicate pushdown.
+Coordinar con el equipo para justificar cinco técnicas de optimización como mínimo.
+
+QUÉ DEBES SUBIR A GITHUB
+Código, notebooks sin salidas pesadas, esquemas JSON, matriz de homologación, pruebas y documentación.
+NO subir Parquet, datos procesados ni secretos.
+
+FLUJO GIT
+1. git checkout main
+2. git pull origin main
+3. git checkout feature/byron-esquemas
+4. Desarrollar y probar.
+5. git add <archivos>
+6. git commit -m "feat: descripcion"
+7. git push origin feature/byron-esquemas
+8. Abrir Pull Request hacia main.
+9. Solicitar revisión de Santi o Matius.
+
+DEPENDENCIAS
+- Santi entrega la ubicación y el inventario de los archivos RAW.
+- Matius consume la salida BRONZE y debe conocer los nombres/tipos acordados.
+- Byron debe comunicar cualquier cambio del esquema canónico antes de integrarlo.
+
+IMPORTANTE
+El caso menciona un cálculo sugerido de total_amount para FHVHV. Verifica las columnas realmente disponibles antes de calcularlo y documenta la decisión. No asumas que todos los campos existen en los tres servicios.
+
+NO CAMBIES POR TU CUENTA LOS CONTRATOS DE DATOS NI LOS NOMBRES DE TABLAS.

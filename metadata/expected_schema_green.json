@@ -1,0 +1,10 @@
+{
+  "service_type": "green",
+  "status": "PENDIENTE_DE_INSPECCIONAR_ARCHIVOS_REALES",
+  "source_files": [
+    "green_tripdata_2023-01.parquet",
+    "green_tripdata_2023-02.parquet"
+  ],
+  "fields": [],
+  "instructions": "Completar con el esquema real leído por Spark. Registrar columnas faltantes, adicionales y cambios de tipo."
+}

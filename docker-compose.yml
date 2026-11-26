@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: etl_nyc_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-etl_nyc_taxi}
+      POSTGRES_USER: ${POSTGRES_USER:-etl_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Crea .env desde .env.example y define POSTGRES_PASSWORD}
+      TZ: America/Guayaquil
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/01_create_tables.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-etl_user} -d ${POSTGRES_DB:-etl_nyc_taxi}"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: etl_nyc_jupyter
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      JUPYTER_TOKEN: ${JUPYTER_TOKEN:-change-this-token}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-etl_nyc_taxi}
+      POSTGRES_USER: ${POSTGRES_USER:-etl_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Crea .env desde .env.example y define POSTGRES_PASSWORD}
+      TZ: America/Guayaquil
+      PYSPARK_PYTHON: python3
+      PYSPARK_DRIVER_PYTHON: python3
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    command: >
+      bash -lc "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser
+      --allow-root --ServerApp.token=$${JUPYTER_TOKEN}"
+
+volumes:
+  postgres_data:

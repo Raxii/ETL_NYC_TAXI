@@ -1,0 +1,84 @@
+LEEME — RESPONSABILIDADES DE SANTI
+Proyecto: ETL_NYC_TAXI
+
+ROL PRINCIPAL
+Infraestructura Docker, extracción de archivos Parquet, inventario técnico, PostgreSQL, carga de datos y gold_daily_revenue.
+
+RAMA DE GITHUB
+feature/santi-extraccion
+
+ARCHIVOS BAJO TU RESPONSABILIDAD
+- Dockerfile y docker-compose.yml (coordinar la configuración con el equipo).
+- requirements.txt y .env.example (no subir el .env real).
+- notebooks/01_extraccion.ipynb
+- notebooks/04_carga_postgres.ipynb
+- src/extract.py
+- src/load.py
+- src/utils.py (utilidades compartidas; coordinar cambios).
+- src/gold_aggregations.py: función gold_daily_revenue.
+- sql/create_tables.sql (coordinar tipos con Byron y Matius).
+- audit_file_inventory.
+- gold_daily_revenue.
+
+TAREAS PASO A PASO
+1. Verificar que Docker levante los servicios jupyter y postgres.
+2. Verificar Java y PySpark dentro del contenedor Jupyter.
+3. Probar la conexión Jupyter -> PostgreSQL.
+4. Leer config/etl_config.yaml y generar un process_id UUID por ejecución.
+5. Preparar la estructura RAW por servicio/año/mes.
+6. Descargar o documentar la descarga de los cinco Parquet seleccionados, una vez aprobada la selección.
+7. Mantener RAW sin modificaciones.
+8. Leer cada archivo individualmente con Spark.
+9. Capturar excepciones por archivo: un archivo con error no debe detener el resto.
+10. Registrar nombre, ruta, tamaño, servicio, año, mes, estado, filas, columnas, hash del esquema, error y fecha.
+11. Generar audit_file_inventory.
+12. Implementar conexión JDBC con PostgreSQL.
+13. Coordinar la carga de las seis tablas finales.
+14. Implementar gold_daily_revenue usando datos válidos y métricas de rechazo.
+15. Diseñar con el equipo la estrategia idempotente. No usar append sin control de duplicados.
+
+CRITERIOS PARA DAR TU PARTE POR TERMINADA
+- Docker Compose inicia sin errores.
+- Jupyter abre y ejecuta Spark.
+- PostgreSQL acepta conexiones.
+- Los archivos seleccionados se encuentran en RAW.
+- Se prueba lectura individual y manejo de excepción.
+- El inventario contiene todos los campos solicitados.
+- La conexión JDBC funciona.
+- La carga repetida no duplica resultados.
+- gold_daily_revenue coincide con los datos de gold_trips_clean y las métricas.
+- Hay notebook, código y evidencia de prueba.
+
+OPTIMIZACIONES SPARK A DOCUMENTAR
+Trabajar al menos en:
+- Esquema explícito o inferencia controlada.
+- Escritura particionada.
+Coordinar con Byron y Matius para que el equipo documente cinco técnicas distintas como mínimo.
+
+QUÉ DEBES SUBIR A GITHUB
+Solo código, notebooks sin salidas pesadas, SQL, configuración de ejemplo y documentación.
+NO subir:
+- .env real.
+- Contraseñas o tokens.
+- Archivos .parquet.
+- Carpetas de datos procesados.
+- Archivos temporales grandes.
+
+FLUJO GIT
+1. git checkout main
+2. git pull origin main
+3. git checkout feature/santi-extraccion
+4. Desarrollar y probar.
+5. git add <archivos>
+6. git commit -m "feat: descripcion"
+7. git push origin feature/santi-extraccion
+8. Abrir Pull Request hacia main.
+9. Solicitar revisión de Byron o Matius.
+
+DEPENDENCIAS
+- Necesitas que el docente confirme la selección menor de archivos.
+- Byron debe definir el esquema reconstruido.
+- Matius debe entregar los datos válidos y rechazados.
+- Los tres deben acordar las claves y la idempotencia antes de la carga.
+
+NO CAMBIES POR TU CUENTA LOS NOMBRES DE LAS SEIS TABLAS NI LOS CONTRATOS DE DATOS.
